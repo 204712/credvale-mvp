@@ -1,4 +1,5 @@
-"client"; // Nota: se estiver a usar Next.js App Router com interatividade de estado, garantimos o comportamento de formulário
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 import { 
@@ -25,7 +26,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProcedure, setSelectedProcedure] = useState("Consulta Cardiológica Geral");
   const [patientName, setPatientName] = useState("");
-  const [patientType, setPatientType] = useState("Particular");
+  const [patientType, setPatientType] = useState("Particular (Com nota para Reembolso)");
   const [patientNote, setPatientNote] = useState("");
 
   const handleOpenModal = (procedure: string) => {
@@ -196,7 +197,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE ESPECIALIDADES COM DISPARO DA TRIAGEM INTELIGENTE */}
+      {/* SEÇÃO DE ESPECIALIDADES */}
       <section id="especialidades" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
