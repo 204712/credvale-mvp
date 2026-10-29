@@ -224,7 +224,7 @@ export default function Home() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-xs text-slate-500 text-center">
-          © {new Date().getFullYear()} Dr. Alexandre Werner. Todos os direitos reservados. CRM-BA 32450.
+          © 2026 Dr. Alexandre Werner. Todos os direitos reservados. CRM-BA 32450.
         </div>
       </footer>
 
