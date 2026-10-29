@@ -8,7 +8,8 @@ import {
   Clock, 
   CheckCircle2, 
   Award,
-  Users
+  Users,
+  HelpCircle
 } from "lucide-react";
 
 export default function Home() {
@@ -19,6 +20,48 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-teal-500 selection:text-white">
+      
+      {/* SCHEMA.ORG DE SEO LOCAL PARA O GOOGLE */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "MedicalBusiness",
+            "name": "Dr. Alexandre Werner - Cardiologia Avançada",
+            "image": "https://credvalesolucoes.com.br/medico-foto.jpg",
+            "@id": "https://credvalesolucoes.com.br",
+            "url": "https://credvalesolucoes.com.br",
+            "telephone": "+5571999504516",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Ed. Empresarial Prime, Sala 402",
+              "addressLocality": "Salvador",
+              "addressRegion": "BA",
+              "postalCode": "40000-000",
+              "addressCountry": "BR"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": -12.9714,
+              "longitude": -38.5014
+            },
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+              ],
+              "opens": "08:00",
+              "closes": "18:00"
+            },
+            "medicalSpecialty": "Cardiology"
+          })
+        }}
+      />
       
       {/* HEADER / NAVBAR */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
@@ -36,7 +79,7 @@ export default function Home() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             <a href="#especialidades" className="hover:text-teal-600 transition-colors">Especialidades</a>
             <a href="#sobre" className="hover:text-teal-600 transition-colors">Sobre Mim</a>
-            <a href="#diferenciais" className="hover:text-teal-600 transition-colors">Estrutura</a>
+            <a href="#faq" className="hover:text-teal-600 transition-colors">Dúvidas</a>
             <a href="#contato" className="hover:text-teal-600 transition-colors">Localização</a>
           </nav>
 
@@ -68,7 +111,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Aliamos tecnologia de ponta, diagnósticos precisos e um atendimento focado no seu bem-estar global e longevidade saudável.
+                Aliamos tecnologia de ponta, diagnósticos precisos e um atendimento focado no seu bem-estar global e longevidade saudável em Salvador.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
@@ -109,7 +152,6 @@ export default function Home() {
             {/* Imagem de Destaque / Mockup do Consultório */}
             <div className="relative mx-auto max-w-md lg:max-w-none w-full">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-200 aspect-[4/5] flex items-center justify-center">
-                {/* Placeholder elegante simulando foto profissional do médico */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-teal-900/40 via-transparent to-transparent z-10" />
                 <div className="text-center p-8 z-20 text-slate-700 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg m-6">
                   <Stethoscope className="w-16 h-16 text-teal-600 mx-auto mb-3" />
@@ -186,6 +228,48 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SEÇÃO DE FAQ (PERGUNTAS FREQUENTES) PARA SEO */}
+      <section id="faq" className="py-20 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Tire suas Dúvidas</h2>
+            <p className="text-3xl font-extrabold text-slate-900 tracking-tight">Perguntas Frequentes</p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <h3 className="font-bold text-slate-900 text-lg mb-2 flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-teal-600" />
+                Como funciona o atendimento por convênios médicos?
+              </h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Trabalhamos no modelo particular com emissão de nota fiscal detalhada e laudos completos para que você possa solicitar o reembolso integral ou parcial junto ao seu plano de saúde, conforme as regras da sua operadora.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <h3 className="font-bold text-slate-900 text-lg mb-2 flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-teal-600" />
+                Como devo me preparar para a primeira consulta cardiológica?
+              </h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Recomendamos trazer exames laboratoriais ou cardiológicos realizados nos últimos 12 meses, além de uma lista com os medicamentos de uso contínuo. Não é necessário jejum absoluto, a menos que especificado previamente.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <h3 className="font-bold text-slate-900 text-lg mb-2 flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-teal-600" />
+                Onde fica localizado o consultório?
+              </h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                O consultório está localizado no Ed. Empresarial Prime, Sala 402, em Salvador - BA, contando com total acessibilidade e estacionamento no local.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* RODAPÉ E CONTATO */}
       <footer id="contato" className="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-10">
@@ -205,7 +289,7 @@ export default function Home() {
             <h4 className="text-white font-semibold mb-4">Horário de Atendimento</h4>
             <div className="space-y-2 text-sm text-slate-400">
               <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-teal-500" /> Segunda a Sexta: 08h às 18h</p>
-              <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-teal-500" /> Ed. Empresarial Prime, Sala 402</p>
+              <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-teal-500" /> Ed. Empresarial Prime, Sala 402, Salvador - BA</p>
             </div>
           </div>
 
