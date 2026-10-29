@@ -17,7 +17,6 @@ import {
 export default function Home() {
   const whatsappNumber = "5571999504516";
   
-  // Função auxiliar para gerar links de WhatsApp personalizados por procedimento
   const getWhatsAppUrl = (procedureName: string) => {
     const message = encodeURIComponent(`Olá! Gostaria de agendar ou tirar dúvidas sobre o procedimento: *${procedureName}*.`);
     return `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
@@ -181,7 +180,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE ESPECIALIDADES COM LINKS DIRECIONADOS DE WHATSAPP */}
+      {/* SEÇÃO DE ESPECIALIDADES */}
       <section id="especialidades" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -259,7 +258,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE WIDGET DE AGENDAMENTO / PASSO A PASSO (CRO AVANÇADO) */}
+      {/* SEÇÃO DE WIDGET DE AGENDAMENTO / PASSO A PASSO */}
       <section id="agendamento" className="py-20 bg-teal-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -301,7 +300,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE FAQ (PERGUNTAS FREQUENTES) PARA SEO */}
+      {/* SEÇÃO DE FAQ (PERGUNTAS FREQUENTES) */}
       <section id="faq" className="py-20 bg-slate-50 border-t border-slate-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -385,16 +384,26 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* BOTÃO FLUTUANTE DE WHATSAPP */}
-      <a 
-        href={generalWhatsAppUrl} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        aria-label="Fale pelo WhatsApp"
-        className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95"
-      >
-        <MessageCircle className="w-7 h-7" />
-      </a>
+      {/* BOTÃO FLUTUANTE DE WHATSAPP COM BALÃO DE NOTIFICAÇÃO ANIMADO */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+        {/* Balão de Texto / Tooltip */}
+        <div className="hidden sm:flex items-center bg-white text-slate-800 text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-100 animate-bounce">
+          <span>Olá! Precisa de ajuda? Fale connosco 💬</span>
+        </div>
+
+        {/* Botão do WhatsApp */}
+        <a 
+          href={generalWhatsAppUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          aria-label="Fale pelo WhatsApp"
+          className="bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 relative"
+        >
+          <MessageCircle className="w-7 h-7" />
+          <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white animate-ping" />
+          <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white" />
+        </a>
+      </div>
 
     </div>
   );
