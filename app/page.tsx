@@ -9,14 +9,21 @@ import {
   CheckCircle2, 
   Award,
   Users,
-  HelpCircle
+  HelpCircle,
+  ArrowRight,
+  Sparkles
 } from "lucide-react";
 
 export default function Home() {
-  // Número de WhatsApp da clínica/profissional para os botões de ação
   const whatsappNumber = "5571999504516";
-  const whatsappMessage = encodeURIComponent("Olá! Gostaria de agendar uma consulta ou tirar dúvidas.");
-  const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${whatsappMessage}`;
+  
+  // Função auxiliar para gerar links de WhatsApp personalizados por procedimento
+  const getWhatsAppUrl = (procedureName: string) => {
+    const message = encodeURIComponent(`Olá! Gostaria de agendar ou tirar dúvidas sobre o procedimento: *${procedureName}*.`);
+    return `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+  };
+
+  const generalWhatsAppUrl = getWhatsAppUrl("Consulta Cardiológica Geral");
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-teal-500 selection:text-white">
@@ -78,13 +85,13 @@ export default function Home() {
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             <a href="#especialidades" className="hover:text-teal-600 transition-colors">Especialidades</a>
-            <a href="#sobre" className="hover:text-teal-600 transition-colors">Sobre Mim</a>
+            <a href="#agendamento" className="hover:text-teal-600 transition-colors">Agendamento</a>
             <a href="#faq" className="hover:text-teal-600 transition-colors">Dúvidas</a>
             <a href="#contato" className="hover:text-teal-600 transition-colors">Localização</a>
           </nav>
 
           <a 
-            href={whatsappUrl} 
+            href={generalWhatsAppUrl} 
             target="_blank" 
             rel="noopener noreferrer"
             className="hidden sm:inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-teal-600/20 active:scale-95"
@@ -116,7 +123,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <a 
-                  href={whatsappUrl} 
+                  href={generalWhatsAppUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg shadow-teal-600/25 text-base active:scale-95"
@@ -174,57 +181,123 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE ESPECIALIDADES / PROCEDIMENTOS */}
+      {/* SEÇÃO DE ESPECIALIDADES COM LINKS DIRECIONADOS DE WHATSAPP */}
       <section id="especialidades" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Áreas de Atuação</h2>
             <p className="text-3xl font-extrabold text-slate-900 tracking-tight">Tratamentos e Especialidades</p>
-            <p className="text-slate-600 mt-3">Abordagem multidisciplinar e individualizada para a sua saúde preventiva e curativa.</p>
+            <p className="text-slate-600 mt-3">Clique no procedimento desejado para tirar dúvidas ou agendar diretamente com a secretária.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             
-            <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Stethoscope className="w-6 h-6" />
+            <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Stethoscope className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Consulta Cardiológica Completa</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  Avaliação de risco cardiovascular, eletrocardiograma, MAPA, Holter e acompanhamento contínuo da pressão arterial.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Consulta Cardiológica Completa</h3>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                Avaliação de risco cardiovascular, eletrocardiograma, MAPA, Holter e acompanhamento contínuo da pressão arterial.
-              </p>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center gap-1">
-                Saiba mais &rarr;
+              <a 
+                href={getWhatsAppUrl("Consulta Cardiológica Completa")} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group"
+              >
+                <span>Agendar Consulta</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
 
-            <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <ShieldCheck className="w-6 h-6" />
+            <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Check-up Preventivo Avançado</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  Bateria completa de exames laboratoriais e de imagem integrados para rastreio precoce de patologias e longevidade.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Check-up Preventivo Avançado</h3>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                Bateria completa de exames laboratoriais e de imagem integrados para rastreio precoce de patologias e longevidade.
-              </p>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center gap-1">
-                Saiba mais &rarr;
+              <a 
+                href={getWhatsAppUrl("Check-up Preventivo Avançado")} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group"
+              >
+                <span>Agendar Check-up</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
 
-            <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Award className="w-6 h-6" />
+            <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Award className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Medicina Esportiva & Performance</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  Otimização metabólica, teste cardiopulmonar de exercício e orientação para praticantes de atividades físicas.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Medicina Esportiva & Performance</h3>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                Otimização metabólica, teste cardiopulmonar de exercício e orientação para praticantes de atividades físicas.
-              </p>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-semibold text-sm inline-flex items-center gap-1">
-                Saiba mais &rarr;
+              <a 
+                href={getWhatsAppUrl("Medicina Esportiva e Performance")} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group"
+              >
+                <span>Agendar Avaliação</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* SEÇÃO DE WIDGET DE AGENDAMENTO / PASSO A PASSO (CRO AVANÇADO) */}
+      <section id="agendamento" className="py-20 bg-teal-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 bg-teal-800 text-teal-200 px-4 py-1.5 rounded-full text-xs font-semibold mb-4 border border-teal-700">
+            <Sparkles className="w-4 h-4" />
+            <span>Processo Simples e Sem Burocracia</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
+            Como agendar o seu atendimento em 3 passos
+          </h2>
+          <p className="text-teal-100 max-w-2xl mx-auto mb-12 text-base">
+            Valorizamos o seu tempo. O nosso fluxo de marcação é ágil e centralizado via WhatsApp para garantir o seu horário ideal com total comodidade.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8 text-left mb-12">
+            <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
+              <span className="text-teal-400 font-bold text-lg block mb-2">01. Escolha o Procedimento</span>
+              <p className="text-teal-100 text-sm leading-relaxed">Selecione o tratamento ou check-up desejado e clique no botão de agendamento rápido.</p>
+            </div>
+            <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
+              <span className="text-teal-400 font-bold text-lg block mb-2">02. Alinhe com a Secretária</span>
+              <p className="text-teal-100 text-sm leading-relaxed">O chat abrirá automaticamente com a mensagem pronta. Informe sua preferência de dia e período.</p>
+            </div>
+            <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
+              <span className="text-teal-400 font-bold text-lg block mb-2">03. Consulta Confirmada</span>
+              <p className="text-teal-100 text-sm leading-relaxed">Receba a confirmação oficial, orientações de preparo e os dados de acesso ao consultório.</p>
+            </div>
+          </div>
+
+          <a 
+            href={generalWhatsAppUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-white text-teal-900 hover:bg-teal-50 font-bold px-8 py-4 rounded-xl transition-all shadow-xl text-base active:scale-95"
+          >
+            <MessageCircle className="w-5 h-5 text-green-600" />
+            <span>Iniciar Agendamento Agora</span>
+          </a>
         </div>
       </section>
 
@@ -297,7 +370,7 @@ export default function Home() {
             <h4 className="text-white font-semibold mb-4">Agendamento Direto</h4>
             <p className="text-sm text-slate-400 mb-4">Tire dúvidas sobre convênios ou horários disponíveis diretamente com a nossa equipe.</p>
             <a 
-              href={whatsappUrl} 
+              href={generalWhatsAppUrl} 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2.5 rounded-xl transition-all text-sm shadow-md"
@@ -314,7 +387,7 @@ export default function Home() {
 
       {/* BOTÃO FLUTUANTE DE WHATSAPP */}
       <a 
-        href={whatsappUrl} 
+        href={generalWhatsAppUrl} 
         target="_blank" 
         rel="noopener noreferrer"
         aria-label="Fale pelo WhatsApp"
