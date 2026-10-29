@@ -1,3 +1,5 @@
+"client"; // Nota: se estiver a usar Next.js App Router com interatividade de estado, garantimos o comportamento de formulário
+import React, { useState } from "react";
 import Image from "next/image";
 import { 
   Stethoscope, 
@@ -11,18 +13,36 @@ import {
   Users,
   HelpCircle,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  X,
+  Send
 } from "lucide-react";
 
 export default function Home() {
   const whatsappNumber = "5571999504516";
   
-  const getWhatsAppUrl = (procedureName: string) => {
-    const message = encodeURIComponent(`Olá! Gostaria de agendar ou tirar dúvidas sobre o procedimento: *${procedureName}*.`);
-    return `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+  // Estado para controlar o Modal de Triagem Inteligente
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProcedure, setSelectedProcedure] = useState("Consulta Cardiológica Geral");
+  const [patientName, setPatientName] = useState("");
+  const [patientType, setPatientType] = useState("Particular");
+  const [patientNote, setPatientNote] = useState("");
+
+  const handleOpenModal = (procedure: string) => {
+    setSelectedProcedure(procedure);
+    setIsModalOpen(true);
   };
 
-  const generalWhatsAppUrl = getWhatsAppUrl("Consulta Cardiológica Geral");
+  const handleSendToWhatsApp = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = encodeURIComponent(
+      `Olá! Meu nome é *${patientName || "Paciente"}*.\nGostaria de agendar: *${selectedProcedure}*.\nTipo de atendimento: *${patientType}*.\nDetalhes/Sintomas: ${patientNote || "Não informado"}`
+    );
+    window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`, '_blank');
+    setIsModalOpen(false);
+  };
+
+  const generalWhatsAppUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=` + encodeURIComponent("Olá! Gostaria de tirar dúvidas ou agendar uma consulta.");
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-teal-500 selection:text-white">
@@ -84,20 +104,18 @@ export default function Home() {
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             <a href="#especialidades" className="hover:text-teal-600 transition-colors">Especialidades</a>
-            <a href="#agendamento" className="hover:text-teal-600 transition-colors">Agendamento</a>
+            <a href="#agendamento" className="hover:text-teal-600 transition-colors">Triagem & Agendamento</a>
             <a href="#faq" className="hover:text-teal-600 transition-colors">Dúvidas</a>
             <a href="#contato" className="hover:text-teal-600 transition-colors">Localização</a>
           </nav>
 
-          <a 
-            href={generalWhatsAppUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-teal-600/20 active:scale-95"
+          <button 
+            onClick={() => handleOpenModal("Consulta Cardiológica Geral")}
+            className="hidden sm:inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-teal-600/20 active:scale-95 cursor-pointer"
           >
             <Calendar className="w-4 h-4" />
             <span>Agendar Consulta</span>
-          </a>
+          </button>
         </div>
       </header>
 
@@ -121,15 +139,13 @@ export default function Home() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <a 
-                  href={generalWhatsAppUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg shadow-teal-600/25 text-base active:scale-95"
+                <button 
+                  onClick={() => handleOpenModal("Consulta Inicial / Triagem")}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg shadow-teal-600/25 text-base active:scale-95 cursor-pointer"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span>Falar com a Secretária</span>
-                </a>
+                  <span>Iniciar Triagem no WhatsApp</span>
+                </button>
                 <a 
                   href="#especialidades" 
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 font-semibold px-6 py-4 rounded-xl border border-slate-200 transition-all text-base"
@@ -180,13 +196,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE ESPECIALIDADES */}
+      {/* SEÇÃO DE ESPECIALIDADES COM DISPARO DA TRIAGEM INTELIGENTE */}
       <section id="especialidades" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Áreas de Atuação</h2>
             <p className="text-3xl font-extrabold text-slate-900 tracking-tight">Tratamentos e Especialidades</p>
-            <p className="text-slate-600 mt-3">Clique no procedimento desejado para tirar dúvidas ou agendar diretamente com a secretária.</p>
+            <p className="text-slate-600 mt-3">Faça uma triagem prévia interativa e garanta o seu atendimento personalizado.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -201,15 +217,13 @@ export default function Home() {
                   Avaliação de risco cardiovascular, eletrocardiograma, MAPA, Holter e acompanhamento contínuo da pressão arterial.
                 </p>
               </div>
-              <a 
-                href={getWhatsAppUrl("Consulta Cardiológica Completa")} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group"
+              <button 
+                onClick={() => handleOpenModal("Consulta Cardiológica Completa")}
+                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group cursor-pointer"
               >
-                <span>Agendar Consulta</span>
+                <span>Fazer Triagem & Agendar</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
             </div>
 
             <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group flex flex-col justify-between">
@@ -222,15 +236,13 @@ export default function Home() {
                   Bateria completa de exames laboratoriais e de imagem integrados para rastreio precoce de patologias e longevidade.
                 </p>
               </div>
-              <a 
-                href={getWhatsAppUrl("Check-up Preventivo Avançado")} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group"
+              <button 
+                onClick={() => handleOpenModal("Check-up Preventivo Avançado")}
+                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group cursor-pointer"
               >
-                <span>Agendar Check-up</span>
+                <span>Fazer Triagem & Agendar</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
             </div>
 
             <div className="bg-slate-50 hover:bg-teal-50/40 border border-slate-100 hover:border-teal-200 p-8 rounded-2xl transition-all group flex flex-col justify-between">
@@ -243,15 +255,13 @@ export default function Home() {
                   Otimização metabólica, teste cardiopulmonar de exercício e orientação para praticantes de atividades físicas.
                 </p>
               </div>
-              <a 
-                href={getWhatsAppUrl("Medicina Esportiva e Performance")} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group"
+              <button 
+                onClick={() => handleOpenModal("Medicina Esportiva e Performance")}
+                className="inline-flex items-center justify-between w-full bg-white hover:bg-teal-600 hover:text-white text-teal-700 border border-teal-200 font-semibold px-4 py-3 rounded-xl transition-all text-sm group cursor-pointer"
               >
-                <span>Agendar Avaliação</span>
+                <span>Fazer Triagem & Agendar</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
             </div>
 
           </div>
@@ -264,41 +274,105 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-teal-800 text-teal-200 px-4 py-1.5 rounded-full text-xs font-semibold mb-4 border border-teal-700">
             <Sparkles className="w-4 h-4" />
-            <span>Processo Simples e Sem Burocracia</span>
+            <span>Exclusivo: Sistema de Triagem Inteligente</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
-            Como agendar o seu atendimento em 3 passos
+            Atendimento ágil, sem filas e com dados pré-alinhados
           </h2>
           <p className="text-teal-100 max-w-2xl mx-auto mb-12 text-base">
-            Valorizamos o seu tempo. O nosso fluxo de marcação é ágil e centralizado via WhatsApp para garantir o seu horário ideal com total comodidade.
+            O nosso assistente recolhe as suas principais necessidades antes de abrir o WhatsApp, garantindo que a secretária já saiba exatamente o seu caso clínico.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 text-left mb-12">
             <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
-              <span className="text-teal-400 font-bold text-lg block mb-2">01. Escolha o Procedimento</span>
-              <p className="text-teal-100 text-sm leading-relaxed">Selecione o tratamento ou check-up desejado e clique no botão de agendamento rápido.</p>
+              <span className="text-teal-400 font-bold text-lg block mb-2">01. Selecione o Procedimento</span>
+              <p className="text-teal-100 text-sm leading-relaxed">Escolha a especialidade e abra o nosso mini-formulário inteligente de triagem.</p>
             </div>
             <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
-              <span className="text-teal-400 font-bold text-lg block mb-2">02. Alinhe com a Secretária</span>
-              <p className="text-teal-100 text-sm leading-relaxed">O chat abrirá automaticamente com a mensagem pronta. Informe sua preferência de dia e período.</p>
+              <span className="text-teal-400 font-bold text-lg block mb-2">02. Informe seus Dados</span>
+              <p className="text-teal-100 text-sm leading-relaxed">Digite seu nome, se o atendimento é particular/convênio e o seu objetivo principal.</p>
             </div>
             <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
-              <span className="text-teal-400 font-bold text-lg block mb-2">03. Consulta Confirmada</span>
-              <p className="text-teal-100 text-sm leading-relaxed">Receba a confirmação oficial, orientações de preparo e os dados de acesso ao consultório.</p>
+              <span className="text-teal-400 font-bold text-lg block mb-2">03. Envio Direto</span>
+              <p className="text-teal-100 text-sm leading-relaxed">O sistema estrutura a mensagem perfeita direto para o WhatsApp do consultório.</p>
             </div>
           </div>
 
-          <a 
-            href={generalWhatsAppUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-white text-teal-900 hover:bg-teal-50 font-bold px-8 py-4 rounded-xl transition-all shadow-xl text-base active:scale-95"
+          <button 
+            onClick={() => handleOpenModal("Consulta Geral de Triagem")}
+            className="inline-flex items-center gap-3 bg-white text-teal-900 hover:bg-teal-50 font-bold px-8 py-4 rounded-xl transition-all shadow-xl text-base active:scale-95 cursor-pointer"
           >
             <MessageCircle className="w-5 h-5 text-green-600" />
-            <span>Iniciar Agendamento Agora</span>
-          </a>
+            <span>Iniciar Triagem Inteligente</span>
+          </button>
         </div>
       </section>
+
+      {/* MODAL DE TRIAGEM INTELIGENTE */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="mb-6">
+              <span className="text-xs font-bold text-teal-600 uppercase tracking-wider block mb-1">Agendamento com Triagem</span>
+              <h3 className="text-2xl font-extrabold text-slate-900">Marcar Consulta</h3>
+              <p className="text-xs text-slate-500 mt-1">Procedimento selecionado: <strong className="text-teal-700">{selectedProcedure}</strong></p>
+            </div>
+
+            <form onSubmit={handleSendToWhatsApp} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Seu Nome Completo</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="Ex: Maria Silva"
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-teal-600 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Tipo de Atendimento</label>
+                <select 
+                  value={patientType}
+                  onChange={(e) => setPatientType(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-teal-600 transition-colors"
+                >
+                  <option value="Particular (Com nota para Reembolso)">Particular (Com nota para Reembolso)</option>
+                  <option value="Convênio Médico">Convênio Médico</option>
+                  <option value="Primeira Vez / Avaliação">Primeira Vez / Avaliação</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Principais Sintomas ou Motivo</label>
+                <textarea 
+                  rows={3}
+                  placeholder="Ex: Sinto falta de ar leve ao caminhar e preciso de check-up..."
+                  value={patientNote}
+                  onChange={(e) => setPatientNote(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-teal-600 transition-colors resize-none"
+                />
+              </div>
+
+              <button 
+                type="submit"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-green-600/20 flex items-center justify-center gap-2 text-base cursor-pointer mt-2"
+              >
+                <Send className="w-5 h-5" />
+                <span>Enviar Triagem para o WhatsApp</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* SEÇÃO DE FAQ (PERGUNTAS FREQUENTES) */}
       <section id="faq" className="py-20 bg-slate-50 border-t border-slate-100">
@@ -386,12 +460,10 @@ export default function Home() {
 
       {/* BOTÃO FLUTUANTE DE WHATSAPP COM BALÃO DE NOTIFICAÇÃO ANIMADO */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-        {/* Balão de Texto / Tooltip */}
         <div className="hidden sm:flex items-center bg-white text-slate-800 text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-100 animate-bounce">
           <span>Olá! Precisa de ajuda? Fale connosco 💬</span>
         </div>
 
-        {/* Botão do WhatsApp */}
         <a 
           href={generalWhatsAppUrl} 
           target="_blank" 
