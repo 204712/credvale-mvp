@@ -16,7 +16,8 @@ import {
   ArrowRight,
   Sparkles,
   X,
-  Send
+  Send,
+  Lock
 } from "lucide-react";
 
 export default function Home() {
@@ -275,13 +276,13 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-teal-800 text-teal-200 px-4 py-1.5 rounded-full text-xs font-semibold mb-4 border border-teal-700">
             <Sparkles className="w-4 h-4" />
-            <span>Exclusivo: Sistema de Triagem Inteligente</span>
+            <span>Exclusivo: Sistema de Triagem Inteligente & Seguro</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
-            Atendimento ágil, sem filas e com dados pré-alinhados
+            Atendimento ágil, sigiloso e em total conformidade com a LGPD
           </h2>
           <p className="text-teal-100 max-w-2xl mx-auto mb-12 text-base">
-            O nosso assistente recolhe as suas principais necessidades antes de abrir o WhatsApp, garantindo que a secretária já saiba exatamente o seu caso clínico.
+            O nosso assistente recolhe as suas necessidades com criptografia e respeito absoluto ao sigilo médico antes de abrir o WhatsApp.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 text-left mb-12">
@@ -294,8 +295,8 @@ export default function Home() {
               <p className="text-teal-100 text-sm leading-relaxed">Digite seu nome, se o atendimento é particular/convênio e o seu objetivo principal.</p>
             </div>
             <div className="bg-teal-800/60 border border-teal-700/50 p-6 rounded-2xl backdrop-blur-sm">
-              <span className="text-teal-400 font-bold text-lg block mb-2">03. Envio Direto</span>
-              <p className="text-teal-100 text-sm leading-relaxed">O sistema estrutura a mensagem perfeita direto para o WhatsApp do consultório.</p>
+              <span className="text-teal-400 font-bold text-lg block mb-2">03. Envio Sigiloso</span>
+              <p className="text-teal-100 text-sm leading-relaxed">O sistema estrutura a mensagem protegida direto para o WhatsApp do consultório.</p>
             </div>
           </div>
 
@@ -309,7 +310,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MODAL DE TRIAGEM INTELIGENTE */}
+      {/* MODAL DE TRIAGEM INTELIGENTE COM AVISO LGPD */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200">
@@ -321,7 +322,10 @@ export default function Home() {
             </button>
 
             <div className="mb-6">
-              <span className="text-xs font-bold text-teal-600 uppercase tracking-wider block mb-1">Agendamento com Triagem</span>
+              <div className="inline-flex items-center gap-1.5 text-teal-700 bg-teal-50 px-3 py-1 rounded-full text-[11px] font-semibold mb-2">
+                <Lock className="w-3 h-3" />
+                <span>Ambiente Seguro & Sigiloso (LGPD)</span>
+              </div>
               <h3 className="text-2xl font-extrabold text-slate-900">Marcar Consulta</h3>
               <p className="text-xs text-slate-500 mt-1">Procedimento selecionado: <strong className="text-teal-700">{selectedProcedure}</strong></p>
             </div>
@@ -361,6 +365,11 @@ export default function Home() {
                   onChange={(e) => setPatientNote(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-teal-600 transition-colors resize-none"
                 />
+              </div>
+
+              <div className="text-[11px] text-slate-400 flex items-center gap-1.5 pt-1">
+                <Lock className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                <span>Dados protegidos pelo sigilo médico e em conformidade com a LGPD.</span>
               </div>
 
               <button 
@@ -454,8 +463,14 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-xs text-slate-500 text-center">
-          © 2026 Dr. Alexandre Werner. Todos os direitos reservados. CRM-BA 32450.
+        
+        {/* Aviso de Privacidade e LGPD no Rodapé */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+          <p>© 2026 Dr. Alexandre Werner. Todos os direitos reservados. CRM-BA 32450.</p>
+          <div className="flex items-center gap-2 text-slate-400">
+            <Lock className="w-3.5 h-3.5 text-teal-500" />
+            <span>Plataforma em conformidade com a LGPD e Sigilo Médico.</span>
+          </div>
         </div>
       </footer>
 
